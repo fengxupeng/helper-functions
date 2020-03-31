@@ -1,0 +1,18 @@
+{
+  "name": "fengxupeng/helper-functions",
+  "description": "Third party message push",
+  "authors": [
+    {
+      "name": "fengxupeng"
+    }
+  ],
+  "license": "Apache-2.0",
+  "require": {
+    "php": ">=5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "fengxupeng\\helper-functions\\": "src/"
+    }
+  }
+}
