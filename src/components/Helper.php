@@ -1,6 +1,6 @@
 <?php
 
-namespace components\Helper;
+namespace components;
 
 
 class Helper

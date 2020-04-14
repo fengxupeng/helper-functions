@@ -1,6 +1,6 @@
 <?php
 
-namespace components\Helper;
+namespace components;
 
 /**
  * 分页类

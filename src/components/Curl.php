@@ -1,6 +1,6 @@
 <?php
 
-namespace app\common\logic;
+namespace components;
 
 use GuzzleHttp\Client;
 
