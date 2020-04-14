@@ -1,5 +1,5 @@
 <?php
-namespace app\components;
+namespace App;
 /**
  * CREATE TABLE `network_log` (
  * `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace App;
 
 /**
  * 分页类
