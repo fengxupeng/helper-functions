@@ -7,7 +7,7 @@ namespace app\components;
  * Class Page
  * @package components\Helper
  */
-class Page
+class Pager
 {
     public $count; //总条数
     public $pages; //总页数

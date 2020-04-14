@@ -12,7 +12,7 @@
   },
   "autoload": {
     "psr-4": {
-      "app\\": "helper-functions/src/"
+      "app\\": "helper-functions/src"
     }
   }
 }
