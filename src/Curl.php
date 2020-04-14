@@ -14,7 +14,6 @@ class Curl
 
     /**
      * 请求数据json, 返回数组
-     * @Author:FH
      * @param $reqParams
      * @param $reqUrl
      * @return mixed
@@ -34,7 +33,6 @@ class Curl
 
     /**
      * 请求数据json, 返回数组
-     * @Author:FH
      * @param $reqParams
      * @param $reqUrl
      * @return mixed
