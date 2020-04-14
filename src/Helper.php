@@ -6,6 +6,17 @@ namespace components\Helper;
 class Helper
 {
     /**
+     * array -> json
+     * @param $arr
+     * @return false|string
+     */
+    public static function toJson($arr)
+    {
+        return json_encode($arr, JSON_UNESCAPED_UNICODE);
+    }
+
+
+    /**
      * 四舍五入保留两位小数 返回浮点数)
      * @param $val
      * @param int $num
