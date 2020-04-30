@@ -6,6 +6,17 @@ namespace App\Components;
 class Helper
 {
     /**
+     * 生成一个不是很严谨的唯一标识
+     * @return string
+     */
+    function createUniqid()
+    {
+        $str = md5(uniqid(mt_rand(), true));
+        return $str;
+    }
+
+
+    /**
      * array -> json
      * @param $arr
      * @return false|string
