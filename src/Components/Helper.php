@@ -49,6 +49,25 @@ class Helper
         return $msg;
     }
 
+
+    /**
+     * 根据自定义错误码打印自定义错误信息
+     * @param $e
+     * @param string $msg
+     * @param int $code
+     * @return string
+     */
+    public static function errMsg($e, $msg = 'error', $code = 4040)
+    {
+        if (method_exists($e, 'getCode') && method_exists($e, 'getMessage')) {
+            if ($e->getCode() == $code) {
+                $msg = $e->getMessage();
+            }
+        }
+        return $msg;
+    }
+
+
     /**
      * 年月日时分秒微秒毫秒
      * @return string
