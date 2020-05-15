@@ -1,5 +1,7 @@
 <?php
 namespace App;
+use App\Components\Helper;
+
 /**
  * CREATE TABLE `network_log` (
  * `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -14,7 +16,7 @@ namespace App;
  */
 class NetworkLog
 {
-    public static function insLog($request = [], $response = [], $msg = 'errormsg', $type = 0, $model = 'NetworkLog')
+    public static function insLog($request = [], $response = [], $msg = '', $type = 0, $model = 'NetworkLog')
     {
         $model = new $model();
         $model->request = is_array($request) ? json_encode($request, JSON_UNESCAPED_UNICODE) : $request;
