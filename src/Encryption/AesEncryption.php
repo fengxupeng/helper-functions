@@ -38,6 +38,7 @@ class Encryption
 
     /**
      * 填充算法
+     * Warning :mcrypt_get_block_size This function has been DEPRECATED as of PHP 7.1.0 and REMOVED as of PHP 7.2.0. Relying on this function is highly discouraged.
      * @param string $source
      * @return string
      */

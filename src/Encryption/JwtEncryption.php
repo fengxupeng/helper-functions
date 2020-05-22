@@ -6,6 +6,11 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Parser;
 
+/**
+ * 使用前 composer require lcobucci/jwt
+ * Class JwtEncryption
+ * @package App\Encryption
+ */
 class JwtEncryption
 {
     /**

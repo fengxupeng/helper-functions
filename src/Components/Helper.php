@@ -9,7 +9,7 @@ class Helper
      * 生成一个不是很严谨的唯一标识
      * @return string
      */
-    function createUniqid()
+    public static function createUniqid()
     {
         $str = md5(uniqid(mt_rand(), true));
         return $str;
@@ -26,9 +26,35 @@ class Helper
         return json_encode($arr, JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * 舍掉小数,不四舍五入
+     * eg: 12.99 -> 123
+     * @param $num
+     * @return string
+     */
+    public function toInt($num)
+    {
+        return sprintf("%u", $num);
+    }
+
 
     /**
-     * 四舍五入保留两位小数 返回浮点数)
+     * (不推荐)四舍五入保留两位小数,返回浮点数(string)
+     * ***注意: 12.555 -> 12.55 , 12.556 -> 12.56
+     * @Author: FH
+     * @param $amount
+     * @param int $num
+     * @return string
+     */
+    public static function convertDecimal($amount, $num = 2)
+    {
+        $ret = sprintf('%.' . $num . 'f', $amount);
+        return $ret;
+    }
+
+
+    /**
+     * 四舍五入保留两位小数,返回浮点数(float)
      * @param $val
      * @param int $num
      * @return float
@@ -36,6 +62,19 @@ class Helper
     public static function roundVal($val, $num = 2)
     {
         return round($val, $num);
+    }
+
+
+    /**
+     * 四舍五入,返回浮点数字符串(string)
+     * @param $val
+     * @param int $num
+     * @return string
+     */
+    public static function numberFormatVal($val, $num = 2)
+    {
+        $formattedNum = number_format($val, $num, '.', '');
+        return $formattedNum;
     }
 
 
@@ -130,6 +169,26 @@ class Helper
     }
 
     /**
+     * example: www.url.com?key=google&time=2000
+     * 转换成 ["key" => "baidu", "time" => 2000]
+     * url 解析
+     * @param $str
+     * @param string $separator
+     * @return array
+     */
+    public function parseUrl($str, $separator = "?")
+    {
+        $data = [];
+        $str = explode($separator, $str);
+        $paramArr = explode('&', end($str));
+        foreach ($paramArr as $val) {
+            $tmp = explode('=', $val);
+            $data[current($tmp)] = end($tmp);
+        }
+        return $data;
+    }
+
+    /**
      * 多维数组处理
      * @param $datas
      * @param $field
@@ -153,6 +212,18 @@ class Helper
         return $datas;
     }
 
+    /**
+     * xml转换数组
+     * @param $response
+     * @return mixed
+     */
+    public static function xmlToArray($response)
+    {
+        $xmlstring = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xmlstring), true);
+
+        return $val;
+    }
 
     /**
      * 生成订单号

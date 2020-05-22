@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Components\Helper;
 use GuzzleHttp\Client;
 
 /**
@@ -31,6 +32,13 @@ class Curl
         return $contents;
     }
 
+    public static function client()
+    {
+        //['verify' => false, 'user-agent' => 'm']
+        $client = new Client(['verify' => false]);
+        return $client;
+    }
+
     /**
      * 请求数据json, 返回数组
      * @param $reqParams
@@ -39,7 +47,8 @@ class Curl
      */
     public static function curlByForm($reqParams, $reqUrl)
     {
-        $client = new Client(['verify' => false]);
+        $client = self::client();
+
         $data['form_params'] = $reqParams;
         $response = $client->post($reqUrl, $data);
         $contents = json_decode($response->getBody()->getContents(), true);
@@ -50,13 +59,62 @@ class Curl
     public static function curlByGet($reqUrl)
     {
         $client = new Client(['verify' => false]);
-//        $data['form_params'] = $reqParams;
         $response = $client->get($reqUrl);
         $contents = json_decode($response->getBody()->getContents(), true);
         return $contents;
     }
 
 
+    /**
+     * soap 扩展请求接口
+     * @param $reqUrl
+     * @param string $queryMethod
+     * @param array $params
+     * @param string $key
+     * @return array
+     */
+    public static function soapRequest($reqUrl, $queryMethod = '', $params = [], $key = 'return')
+    {
+        $soap = new \SoapClient($reqUrl);
+        $response = $soap->$queryMethod($params);
+        $arr = json_decode(json_encode($response), true);
+        if ($key) {
+            $xml = $arr['return'];
+            $list = Helper::xmlToArray($xml);
+            return $list;
+        }
+
+        return $arr;
+    }
+
+    /**
+     * soap 扩展请求接口
+     * @param $req_url
+     * @param $method
+     * @param $param string xml
+     * @return mixed
+     */
+    public function soapDoRequest($req_url, $method, $param)
+    {
+        $soap = new \SoapClient(null, ['location' => $req_url, 'uri' => $method]);
+        $re = $soap->__doRequest($param, $req_url, '', 1);
+        $reqArr = Curl::handleXml($re);
+        return $reqArr;
+    }
+
+
+    /**
+     * @param $soap
+     * @return mixed
+     */
+    public static function handleXml($soap)
+    {
+        // 把&lt; &gt;转换城<,>
+        $soap = html_entity_decode($soap, ENT_NOQUOTES);
+        $xml = explode('</return>', explode('<return>', $soap)[1])[0];
+        $list = Helper::xmlToArray($xml);
+        return $list;
+    }
 
 
     public static function curlByXml($url, $xmlData, $method = 1)
@@ -78,15 +136,9 @@ class Curl
         }
         curl_close($ch);
 
-        self::xmlToArray($result);
-
+        return Helper::xmlToArray($result);
 
     }
-
-
-
-
-
 
 
 }
