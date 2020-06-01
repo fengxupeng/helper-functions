@@ -4,7 +4,7 @@ namespace App\File;
 class DownloadFile
 {
     /**
-     * 文件下载
+     * 文件下载(支持excel,word,txt)
      * 应用场景:从服务器上下载文件
      * @param $absolute_url string 绝对路径
      * @param string $filename
@@ -15,8 +15,12 @@ class DownloadFile
         $file = fopen($url, "r");
         header("Content-Type: application/octet-stream");
         header("Accept-Length: " . filesize($url));
-        header("Content-Disposition: attachment; filename=" . $filename . "");
+        header("Content-Disposition: attachment; filename=" . $filename);
+        header("Content-Transfer-Encoding: binary");
+        header('Pragma: no-cache');
+        header('Expires: 0');
         echo fread($file, filesize($url));
         fclose($file);
+        exit();
     }
 }

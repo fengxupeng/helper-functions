@@ -28,11 +28,11 @@ class Helper
 
     /**
      * 舍掉小数,不四舍五入
-     * eg: 12.99 -> 123
+     * eg: 12.99 -> 12
      * @param $num
      * @return string
      */
-    public function toInt($num)
+    public static function toInt($num)
     {
         return sprintf("%u", $num);
     }
