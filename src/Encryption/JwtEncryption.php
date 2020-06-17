@@ -19,20 +19,17 @@ class JwtEncryption
      * Create token
      * @param $stri string 比如 phone . user_id
      * @param $identify string eg:Random string
-     * @param int $expireTime
+     * @param int $expire_time 过期时间默认100天
      * @return string
      */
-    public static function createHash($stri, $identify, $expireTime = 0)
+    public static function createHash($stri, $identify, $expire_time = 8640000)
     {
         $time = time();
-        if ($expireTime) {
-            $expireTime = $time + $expireTime;
-        }
         $builder = new Builder();
         $token = $builder->identifiedBy($identify, true)
             ->issuedAt($time)// 配置发行令牌的时间（iat声明）
             ->canOnlyBeUsedAfter($time)//配置令牌可以使用的时间（nbf声明）
-            ->expiresAt($expireTime)// 设置过期时间
+            ->expiresAt($expire_time)// 设置过期时间
             ->withClaim("stri", $stri)
             ->getToken(new Sha256(), new Key($stri));
         return (String)$token;
