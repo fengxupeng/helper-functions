@@ -138,12 +138,18 @@ class Helper
 
 
     /**
-     * 判断是否是https
+     * 判断是否是https(SSL协议)
      * @return string
      */
     public static function ifHttps()
     {
-        if (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ||
+
+        //
+//        if (isset($_SERVER['SERVER_PORT']) && ('443' == $_SERVER['SERVER_PORT'])) {
+//            return 'https://';
+//        }
+
+        if (((isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ||
             (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
         )) {
             return 'https://';
@@ -172,6 +178,7 @@ class Helper
      * example: www.url.com?key=google&time=2000
      * 转换成 ["key" => "baidu", "time" => 2000]
      * url 解析
+     * todo 也可以参考: http_build_query 和 parse_str
      * @param $str
      * @param string $separator
      * @return array
