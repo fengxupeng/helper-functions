@@ -23,7 +23,7 @@ class Helper
      */
     public static function toJson($arr)
     {
-        return json_encode($arr, JSON_UNESCAPED_UNICODE);
+        exit(json_encode($arr, JSON_UNESCAPED_UNICODE));
     }
 
     /**
@@ -159,7 +159,7 @@ class Helper
 
 
     /**
-     * 取指定字段的数组
+     * 取指定字段的数组(array_column)
      * @param $list
      * @param $field
      * @return array
