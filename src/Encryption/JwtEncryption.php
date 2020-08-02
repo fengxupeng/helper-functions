@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Encryption;
+
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\ValidationData;
 
 /**
  * 使用前 composer require lcobucci/jwt
@@ -14,19 +16,20 @@ use Lcobucci\JWT\Parser;
 class JwtEncryption
 {
     /**
-     * 根据手机号和用户ID创建一个token
+     * Create token
      * @param $stri string 比如 phone . user_id
-     * @param int $expireTime
+     * @param $identify string eg:Random string
+     * @param int $expire_time 过期时间默认100天
      * @return string
      */
-    public static function createHash($stri,$expireTime = 86400)
+    public static function createHash($stri, $identify, $expire_time = 8640000)
     {
         $time = time();
         $builder = new Builder();
-        $token = $builder->identifiedBy('your project-Random', true)
-            ->issuedAt($time) // 配置发行令牌的时间（iat声明）
-            ->canOnlyBeUsedAfter($time) //配置令牌可以使用的时间（nbf声明）
-//            ->expiresAt($time + $expireTime)// 设置过期时间
+        $token = $builder->identifiedBy($identify, true)
+            ->issuedAt($time)// 配置发行令牌的时间（iat声明）
+            ->canOnlyBeUsedAfter($time)//配置令牌可以使用的时间（nbf声明）
+            ->expiresAt($expire_time)// 设置过期时间
             ->withClaim("stri", $stri)
             ->getToken(new Sha256(), new Key($stri));
         return (String)$token;
@@ -36,13 +39,16 @@ class JwtEncryption
      * 检测Token是否过期与篡改
      * @param $token
      * @param $stri string
+     * @param $identify
      * @return boolean
      */
-    public static function validateHash($token, $stri)
+    public static function validateHash($token, $stri, $identify)
     {
         $token = (new Parser())->parse((String)$token);
-        $verify = $token->verify(new Sha256(), $stri);
-        return $verify;
+        $verify = $token->verify(new Sha256(), (string)$stri);
+        $validationData = new ValidationData();
+        $validationData->setId($identify);
+        return $token->validate($validationData);
     }
 
 

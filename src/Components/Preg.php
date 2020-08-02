@@ -118,6 +118,19 @@ class Preg
     }
 
     /**
+     * 正则验证邮箱
+     * @param $email
+     * @return bool
+     */
+    function PregMatchEmailV2($email){
+        $patt = "/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/";
+        $res = preg_match($patt, $email);
+        return $res;
+    }
+
+
+
+    /**
      * 正则验证座机
      * @param $telephone
      * @return false|int
