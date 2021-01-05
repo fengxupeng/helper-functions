@@ -12,7 +12,7 @@ class Pager
     public $count; //总条数
     public $pages; //总页数
     public $current_page = 1;//当前页
-    public $limit;// 一页多少条
+    public $limit;// 长度
     public $start = 0;
 
     /**
@@ -30,6 +30,9 @@ class Pager
         $this->start = ($this->current_page - 1) * $this->limit;
     }
 
+    /**
+     * @param $request
+     */
     public function setCurrentPage($request)
     {
         // 没传,默认第1页
@@ -38,11 +41,15 @@ class Pager
         $this->current_page = $this->current_page <= 0 ? 1 : $this->current_page;
     }
 
+    /**
+     * @return array
+     */
     public function ret()
     {
         return [
             'pages' => $this->pages,
-            'count' => $this->count
+            'count' => $this->count,
+            "start" => $this->start
         ];
     }
 
