@@ -9,22 +9,27 @@ namespace App;
  */
 class Pager
 {
-    public $count; //总条数
-    public $pages; //总页数
-    public $current_page = 1;//当前页
-    public $limit;// 长度
-    public $start = 0;
+    private $count; //总条数
+    private $pages; //总页数
+    private $current_page = 1;//当前页
+    private $limit;// 长度
+    private $start = 0;
 
     /**
+     * $length = 10;
+     * $_REQUEST['page'] = 2;
+     * $page = new PagerLogic($count, $length);
+     * var_dump( $page->start, $page->limit);die;
      * Page constructor.
-     * @param $count int 总条数
+     * @param $count mixed 总条数
      * @param int $limit
+     * @param null $request
      */
-    public function __construct($count, $limit = 10)
+    public function __construct($count, $limit = 10, $request = null)
     {
         $this->limit = $limit;
         $this->count = $count;
-        $this->setCurrentPage($_REQUEST);
+        $this->setCurrentPage($request ? $request : $_REQUEST);
         $this->pages = ceil($this->count / $this->limit);
         // 0--9, 10--19, 20--29
         $this->start = ($this->current_page - 1) * $this->limit;
@@ -33,7 +38,7 @@ class Pager
     /**
      * @param $request
      */
-    public function setCurrentPage($request)
+    private function setCurrentPage($request)
     {
         // 没传,默认第1页
         $this->current_page = isset($request['page']) ? (int)$request['page'] : 1;
@@ -42,15 +47,43 @@ class Pager
     }
 
     /**
-     * @return array
+     * @return mixed
      */
-    public function ret()
+    public function getCount()
     {
-        return [
-            'pages' => $this->pages,
-            'count' => $this->count,
-            "start" => $this->start
-        ];
+        return $this->count;
+    }
+
+    /**
+     * @return false|float
+     */
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentPage()
+    {
+        return $this->current_page;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getStart()
+    {
+        return $this->start;
     }
 
 }
